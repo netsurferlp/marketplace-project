@@ -8,15 +8,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware Global
+// Middleware Global - Configuración de CORS dinamica usando variables de entorno
 app.use(
   cors({
-    origin: "http://localhost:5173", // URL of React frontend
-    credentials: true, // Allow cookies to be sent
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // URL of React frontend
+    credentials: true, // Necesario para recibir y enviar cookies httpOnly desde el frontend
   }),
 );
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET || "default_secret")); // Configuración de cookie-parser con una clave secreta para firmar cookies
 
 // Ruta de Prueba
 app.get("/", (req, res) => {
