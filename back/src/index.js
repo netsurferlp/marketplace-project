@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import { probarConexionDB } from "./config/db.js"; //Importar la función para probar la conexión a la base de datos
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
   res.json({ message: "¡Bienvenido a la API!" });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Servidor backend escuchando en http://localhost:${PORT}`);
+  await probarConexionDB(); // Probar la conexión a la base de datos al iniciar el servidor
 });
